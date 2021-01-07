@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+
+  <script src="static/js/sketch.js"></script>
+
+</head>
+  <style>
+/* Style the body  */
+    body {
+      overflow: hidden; /* hide scroll bar https://stackoverflow.com/questions/10562938/scrollbar-resizing-the-page */
+      font-family: sans-serif;
+      margin: 0;
+      background: #191970; /* dark blue */
+    }
+
+    /* Header/Logo Title */
+    .header {
+      margin: 10%;
+      text-align: center;
+      color: white;
+      font-size: 125%;
+    }
+
+    .button {
+      border: none;
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 3px;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
+
+    .buttonLogin {
+        background-color: white; /* Green */
+        color: black;
+        font-weight: bold;
+        border-radius: 30px;
+    }
+    .buttonGuest {
+        background-color: black; /* Green */
+        color: white;
+        font-weight: bold;
+        border-radius: 30px;
+    }
+    .bottomright {
+      color: white;
+      word-spacing: 15px;
+      position: absolute;
+      bottom: 8px;
+      right: 16px;
+      font-size: 15px;
+    }
+    .box {
+     position: absolute;
+     top: 45%;
+     left: 50%;
+     transform: translate3d(-50%, -50%, 0);
+     background-color: transparent;
+     width: 90%;
+     width: 55%;
+     max-width: 1920px;
+     padding: 5px;
+     border: 0px;
+    }
+  </style>
+
+  <body>
+    <div class='box'>
+      <div class="header">
+        <h1>Genre Cloud</h1>
+        <p>Discover your favorite genres in an interactive word cloud</p>
+        <button class="button buttonLogin"  onclick="window.location.href = '/auth';">Login to Spotify</button>
+        <button class="button buttonGuest" onclick="window.location.href = '/guest';">Try Guest Demo</button>
+      </div>
+    </div>
+
+    <div class="bottomright">
+        <a href="/about" style="color:white; text-decoration:none;">About</a> <a href="mailto: mailto:genrecloud@gmail.com" style="color:white; text-decoration:none;">Contact</a>
+    </div>
+  </body>
+</html>

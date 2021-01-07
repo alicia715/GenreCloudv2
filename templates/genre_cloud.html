@@ -1,0 +1,131 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+  <script src="static/js/sketch.js"></script>
+
+</head>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/plugins/wordCloud.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+  am4core.ready(function() {
+
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  var chart = am4core.create("chartdiv", am4plugins_wordCloud.WordCloud);
+  chart.fontFamily = "sans-serif"//"Courier New";
+  var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+  series.randomness = 0.20;
+  series.rotationThreshold = 0.5;
+
+  sounds_dict =  JSON.parse('{{sounds_dict | tojson}}');
+  username = '{{username}}';
+  genre_dict =  JSON.parse('{{genre_dict | tojson}}');
+  //console.log(JSON.stringify(genre_dict));
+  guest = '{{guest}}';
+
+
+  genres = Object.keys(genre_dict);
+
+  series.data = []
+  for (i = 0; i < genres.length; i++) {
+    genre = genres[i]
+    artists = genre_dict[genre]
+    s_artists = artists.toString().replace(/,/g, '\n')
+    dict = {"tag": genre, "count": artists.length,
+    "hover": s_artists, "genre_url":sounds_dict["the sound of " + genre]}
+    series.data.push(dict)
+  }
+
+  series.dataFields.word = "tag";
+  series.dataFields.value = "count";
+  series.dataFields.hover = "hover";
+  series.dataFields.genre_url = "genre_url";
+
+  series.heatRules.push({
+   "target": series.labels.template,
+   "property": "fill",
+
+   "min": am4core.color("#D7EDFF"),//"#0000CC"),
+   "max": am4core.color("#FFFFFF"),//"#CC00CC"),
+   "dataField": "value"
+  });
+
+  series.labels.template.url = "{genre_url}";
+  series.labels.template.urlTarget = "_blank";
+  series.labels.template.tooltipText = "[Black, bold]{word}[/] \n {hover}" ;
+
+  var hoverState = series.labels.template.states.create("hover");
+  hoverState.properties.fill = am4core.color("white")//"#FF0000");
+
+  }); // end am4core.ready()
+</script>
+
+
+<style>
+     html, body {
+       background: #191970; /* dark blue */
+       /*background: Transparent;*/
+     }
+    #chartdiv {
+      width: 100%;
+      height: 95%;
+      background-color: Transparent
+    }
+
+    .topLeftBox {
+      position: absolute;
+      top: 1.5%;
+      left: 1%;
+      width: 270px;
+      font-family: sans-serif;
+      font-size: 1.0vw; /* font size changes as window changes */
+      /*border: 3px solid #73AD21;*/
+    }
+
+    .topRightBox {
+      position: absolute;
+      top: .75%;
+      right: 1%;
+      font-family: sans-serif;
+      font-size: 1.0vw;
+      /*border: 3px solid #73AD21;*/
+    }
+    .chartBox{
+      position: absolute;
+      top: 12%;
+      width: 99.9%;
+      height: 87%;
+      /*border: 1px solid white;*/
+    }
+
+</style>
+
+<!-- HTML -->
+<body>
+
+  <div class="topLeftBox">
+    <a href="/" style="color:white; text-decoration:none;"><b>Genre Cloud</b></a>
+    <p style="color:white">an interactive display of {{username}} musical genres</p>
+  </div>
+ <div class="topRightBox">
+  <p style="color:white">(hover over a genre and click on it!) </p>
+ </div>
+ <div class="chartBox">
+     <div id="chartdiv"></div>
+ </div>
+
+
+</body>

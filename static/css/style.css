@@ -1,0 +1,15 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  overflow: hidden;
+  /* You should set body and html to position:fixed;, and then set right:, left:, top:, and bottom: to 0;. That way, even if content overflows it will not extend past the limits of the viewport.*/
+}
+canvas {
+  display: block;
+  margin:auto;
+}
